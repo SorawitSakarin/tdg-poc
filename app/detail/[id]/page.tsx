@@ -1,6 +1,8 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { MdOutlineArrowBack } from "react-icons/md";
+import { Link, Button } from "@heroui/react";
 
 import { title } from "@/components/primitives";
 import CardDetail from "@/components/detail/CardDetail";
@@ -24,7 +26,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             "Content-Type": "application/json",
           },
           cache: "no-cache",
-        },
+        }
       );
 
       if (!response.ok) {
@@ -60,6 +62,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           type={data.type}
         />
       )}
+      <Button
+        as={Link}
+        href="/"
+        startContent={<MdOutlineArrowBack />}
+        variant="bordered"
+      >
+        Back to Home
+      </Button>
     </section>
   );
 }
