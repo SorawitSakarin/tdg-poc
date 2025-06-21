@@ -3,7 +3,6 @@ import { useState, useEffect, Suspense } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
-import { useSearchParams } from "next/navigation";
 
 import { title } from "@/components/primitives";
 import BranchSelection from "@/components/home/BrachSelection";
@@ -19,18 +18,8 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [branchIds, setBranchIds] = useState(new Set([]));
+  const [type, setType] = useState("shoplifter");
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const channel = searchParams.get("channel");
-  const [type, setType] = useState(() => {
-    if (!channel) return "shoplifter";
-    if (channel === "unusualPickingBehavior") return "shoplifter";
-    if (channel === "insufficientFreshFood") return "freshfood";
-    if (channel === "unusualSafeOpening") return "cashroom";
-
-    return "shoplifter";
-  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,12 +112,14 @@ export default function Home() {
           ) : (
             <div className="flex flex-col w-full gap-2">
               <div className="flex flex-col w-full">
-                <TabNotification
-                  isLoading={isLoading}
-                  setType={setType}
-                  type={type}
-                />
-                <DataTable data={data} />
+                <Suspense>
+                  <TabNotification
+                    isLoading={isLoading}
+                    setType={setType}
+                    type={type}
+                  />
+                  <DataTable data={data} />
+                </Suspense>
               </div>
               {data.length > 0 && total > 0 && (
                 <Pagination

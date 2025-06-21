@@ -1,7 +1,10 @@
+"use client";
 import { Tabs, Tab, Spinner } from "@heroui/react";
 import { TbMeat } from "react-icons/tb";
 import { BsCashCoin } from "react-icons/bs";
 import { RiAlertLine } from "react-icons/ri";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 interface TabNotificationProps {
   setType: (type: string) => void;
@@ -14,6 +17,17 @@ export default function TabNotification({
   type,
   isLoading,
 }: TabNotificationProps) {
+  const searchParams = useSearchParams();
+
+  const channel = searchParams.get("channel");
+
+  useEffect(() => {
+    if (!channel) setType("shoplifter");
+    if (channel === "unusualPickingBehavior") setType("shoplifter");
+    if (channel === "insufficientFreshFood") setType("freshfood");
+    if (channel === "unusualSafeOpening") setType("cashroom");
+  }, [channel]);
+
   return (
     <div className="flex w-full flex-col">
       <Tabs
