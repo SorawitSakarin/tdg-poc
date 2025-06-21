@@ -1,8 +1,7 @@
 "use client";
-import { Card, Image, CardBody, CardHeader, Divider } from "@heroui/react";
+import { Card, CardBody, CardHeader, Divider } from "@heroui/react";
 import { LuMapPin } from "react-icons/lu";
 import { TbDeviceComputerCamera } from "react-icons/tb";
-import { TbAlertCircleFilled } from "react-icons/tb";
 import { TbMeat } from "react-icons/tb";
 import { BsCashCoin } from "react-icons/bs";
 import { RiAlertLine } from "react-icons/ri";
@@ -65,7 +64,7 @@ export default function CardDetail({
           </div>
           <div className="w-full flex items-center justify-center">
             {mediaUrl ? (
-              <video controls width="100%" height="auto" autoPlay muted loop>
+              <video autoPlay controls loop muted height="auto" width="100%">
                 <source src={mediaUrl} type="video/mp4" />
               </video>
             ) : (

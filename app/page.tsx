@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
+import { useSearchParams } from "next/navigation";
 
 import { title } from "@/components/primitives";
 import BranchSelection from "@/components/home/BrachSelection";
@@ -14,12 +15,22 @@ export default function Home() {
   const [isFirstLoading, setIsFirstLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [type, setType] = useState("shoplifter");
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [branchIds, setBranchIds] = useState(new Set([]));
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const channel = searchParams.get("channel");
+  const [type, setType] = useState(() => {
+    if (!channel) return "shoplifter";
+    if (channel === "unusualPickingBehavior") return "shoplifter";
+    if (channel === "insufficientFreshFood") return "freshfood";
+    if (channel === "unusualSafeOpening") return "cashroom";
+
+    return "shoplifter";
+  });
 
   useEffect(() => {
     const fetchData = async () => {
