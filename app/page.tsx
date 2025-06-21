@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
@@ -50,7 +50,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           cache: "no-cache",
-        },
+        }
       );
 
       if (!response.ok) {
@@ -85,7 +85,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           cache: "no-cache",
-        },
+        }
       );
 
       if (!response.ok) {
@@ -102,43 +102,47 @@ export default function Home() {
   }, []);
 
   return (
-    <section className="flex flex-col items-start justify-start gap-8">
-      <div className="inline-block max-w-xl text-left justify-center md:whitespace-nowrap">
-        <span className={title()}>Notification&nbsp;</span>
-        <span className={title({ color: "blue" })}>Fraud/ Operation&nbsp;</span>
-      </div>
-      <Card className="w-full shadow-lg">
-        <CardBody>
-          <div className="flex flex-col md:flex-row gap-3 w-full p-2 items-end">
-            <BranchSelection setValues={setBranchIds} values={branchIds} />
-          </div>
-        </CardBody>
-      </Card>
-      <div className="flex flex-col w-full">
-        {isFirstLoading ? (
-          <FirstLoadSekeleton />
-        ) : (
-          <div className="flex flex-col w-full gap-2">
-            <div className="flex flex-col w-full">
-              <TabNotification
-                isLoading={isLoading}
-                setType={setType}
-                type={type}
-              />
-              <DataTable data={data} />
+    <Suspense>
+      <section className="flex flex-col items-start justify-start gap-8">
+        <div className="inline-block max-w-xl text-left justify-center md:whitespace-nowrap">
+          <span className={title()}>Notification&nbsp;</span>
+          <span className={title({ color: "blue" })}>
+            Fraud/ Operation&nbsp;
+          </span>
+        </div>
+        <Card className="w-full shadow-lg">
+          <CardBody>
+            <div className="flex flex-col md:flex-row gap-3 w-full p-2 items-end">
+              <BranchSelection setValues={setBranchIds} values={branchIds} />
             </div>
-            {data.length > 0 && total > 0 && (
-              <Pagination
-                showControls
-                initialPage={1}
-                page={current}
-                total={total}
-                onChange={setCurrent}
-              />
-            )}
-          </div>
-        )}
-      </div>
-    </section>
+          </CardBody>
+        </Card>
+        <div className="flex flex-col w-full">
+          {isFirstLoading ? (
+            <FirstLoadSekeleton />
+          ) : (
+            <div className="flex flex-col w-full gap-2">
+              <div className="flex flex-col w-full">
+                <TabNotification
+                  isLoading={isLoading}
+                  setType={setType}
+                  type={type}
+                />
+                <DataTable data={data} />
+              </div>
+              {data.length > 0 && total > 0 && (
+                <Pagination
+                  showControls
+                  initialPage={1}
+                  page={current}
+                  total={total}
+                  onChange={setCurrent}
+                />
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    </Suspense>
   );
 }
