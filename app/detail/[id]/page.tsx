@@ -26,7 +26,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             "Content-Type": "application/json",
           },
           cache: "no-cache",
-        },
+        }
       );
 
       if (!response.ok) {
@@ -42,7 +42,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     fetchData();
   }, []);
 
-  const channel = data.type;
+  const channel =
+    data.type === "unusualPickingBehavior"
+      ? "shoplifter"
+      : data.type === "insufficientFreshFood"
+        ? "freshfood"
+        : data.type === "unusualSafeOpening"
+          ? "cashroom"
+          : "shoplifter";
 
   return (
     <section className="flex flex-col items-start justify-start gap-8">
@@ -66,7 +73,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       )}
       <Button
         as={Link}
-        href={`/?channel=${channel}`}
+        href={`/${channel}`}
         startContent={<MdOutlineArrowBack />}
         variant="bordered"
       >
