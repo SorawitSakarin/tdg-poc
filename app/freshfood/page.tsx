@@ -1,9 +1,9 @@
 "use server";
-import Page from "@/app/shoplifter/page";
+import MainPage from "@/components/home/MainPage";
 
 export default async function Home() {
   const type = "freshfood";
   const header = "Fresh Food Fulfillment";
 
-  return <Page header={header} type={type} />;
+  return <MainPage header={header} type={type} />;
 }
