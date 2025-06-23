@@ -10,8 +10,8 @@ import FirstLoadSekeleton from "@/components/home/FirstLoadSekeleton";
 import DataTable from "@/components/home/DataTable";
 
 interface Props {
-  type: string;
-  header: string;
+  type?: string;
+  header?: string;
 }
 export default function Page({
   type = "shoplifter",
