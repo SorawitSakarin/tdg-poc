@@ -14,7 +14,7 @@ import {
 } from "@heroui/react";
 
 export const columns = [
-  { name: "ดูรายละเอียด", uid: "actions" },
+  { name: "", uid: "actions" },
   { name: "เวลา", uid: "detectedAt" },
   { name: "หัวข้อ", uid: "title" },
   { name: "สาขา", uid: "branchName" },
