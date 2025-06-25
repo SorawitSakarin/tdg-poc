@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Card, CardBody } from "@heroui/card";
 import { useRouter } from "next/navigation";
 import { Pagination } from "@heroui/react";
+import { useSearchParams } from "next/navigation";
 
 import { title } from "@/components/primitives";
 import BranchSelection from "@/components/home/BrachSelection";
@@ -22,8 +23,17 @@ export default function MainPage({
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [branchIds, setBranchIds] = useState(new Set([]));
+  const [branchIds, setBranchIds] = useState(new Set<string>([]));
   const router = useRouter();
+
+  const search = useSearchParams();
+  const branchId = search.get("branchId");
+
+  useEffect(() => {
+    if (branchId && ["12", "13", "14"].includes(branchId)) {
+      setBranchIds(new Set([branchId]));
+    }
+  }, [branchId]);
 
   useEffect(() => {
     const fetchData = async () => {
