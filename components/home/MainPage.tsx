@@ -23,17 +23,17 @@ export default function MainPage({
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(10);
-  const [branchIds, setBranchIds] = useState(new Set<string>([]));
   const router = useRouter();
 
   const search = useSearchParams();
   const branchId = search.get("branchId");
-
-  useEffect(() => {
+  const [branchIds, setBranchIds] = useState(() => {
     if (branchId && ["12", "13", "14"].includes(branchId)) {
-      setBranchIds(new Set([branchId]));
+      return new Set([branchId]);
     }
-  }, [branchId]);
+
+    return new Set<string>([]);
+  });
 
   useEffect(() => {
     const fetchData = async () => {
