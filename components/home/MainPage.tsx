@@ -18,7 +18,8 @@ export default function MainPage({
   type = "shoplifter",
   header = "Fraud Shoplifter",
 }: Props) {
-  const [isFirstLoading, setIsFirstLoading] = useState(false);
+  const [isFirstLoading, setIsFirstLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [current, setCurrent] = useState(1);
   const [total, setTotal] = useState(0);
@@ -37,6 +38,9 @@ export default function MainPage({
 
   useEffect(() => {
     const fetchData = async () => {
+      if (isFirstLoading) {
+        setIsLoading(true);
+      }
       const params = new URLSearchParams({
         branchIds: Array.from(branchIds).join(","),
         type,
@@ -51,7 +55,7 @@ export default function MainPage({
             "Content-Type": "application/json",
           },
           cache: "no-cache",
-        }
+        },
       );
 
       if (!response.ok) {
@@ -63,42 +67,12 @@ export default function MainPage({
       setCurrent(data.pagination.current);
       setTotal(Math.ceil(data.pagination.total / data.pagination.pageSize));
       setPageSize(data.pagination.pageSize);
-    };
-
-    fetchData();
-  }, [current, branchIds]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsFirstLoading(true);
-      const params = new URLSearchParams({
-        type,
-        current: current.toString(),
-        pageSize: pageSize.toString(),
-      });
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/v2/notifications/tdg-poc?${params.toString()}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          cache: "no-cache",
-        }
-      );
-
-      if (!response.ok) {
-        setIsFirstLoading(false);
-        router.push("/not-found");
-      }
-      const data = await response.json();
-
-      setData(data.data);
+      setIsLoading(false);
       setIsFirstLoading(false);
     };
 
     fetchData();
-  }, []);
+  }, [current, branchIds]);
 
   return (
     <section className="flex flex-col items-start justify-start gap-8">
@@ -114,7 +88,7 @@ export default function MainPage({
         </CardBody>
       </Card>
       <div className="flex flex-col w-full">
-        {isFirstLoading ? (
+        {isFirstLoading || isLoading ? (
           <FirstLoadSekeleton />
         ) : (
           <div className="flex flex-col w-full gap-2">
