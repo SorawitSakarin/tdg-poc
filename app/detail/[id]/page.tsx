@@ -47,9 +47,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       ? "shoplifter"
       : data.type === "insufficientFreshFood"
         ? "freshfood"
-        : data.type === "unusualSafeOpening"
-          ? "cashroom"
-          : "shoplifter";
+        : data.type === "openLid"
+          ? "openlid"
+          : data.type === "unusualSafeOpening"
+            ? "cashroom"
+            : data.type === "staffNotWeighingArea" ||
+                data.type === "staffNotCashierArea"
+              ? "onduty"
+              : "shoplifter";
 
   return (
     <section className="flex flex-col items-start justify-start gap-8">
@@ -73,7 +78,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       )}
       <Button
         as={Link}
-        href={`/${channel}`}
+        href={`/${channel}?branchId=${data.branch}`}
         startContent={<MdOutlineArrowBack />}
         variant="bordered"
       >

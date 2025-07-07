@@ -14,6 +14,8 @@ import { usePathname } from "next/navigation";
 import { TbMeat } from "react-icons/tb";
 import { BsCashCoin } from "react-icons/bs";
 import { RiAlertLine } from "react-icons/ri";
+import { BiDoorOpen } from "react-icons/bi";
+import { GoPeople } from "react-icons/go";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 
@@ -22,13 +24,16 @@ export const Navbar = () => {
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand as="li" className="gap-3 max-w-fit">
+      <NavbarContent className="basis-full md:basis-1/5" justify="center">
+        <NavbarBrand as="li" className="gap-3">
           <NextLink className="flex justify-start items-center gap-1" href="/">
             <Image alt="logo" height={32} src="/axonsEyeLogo.png" width={32} />
             <p className="font-bold text-inherit">AXONS Eyes</p>
           </NextLink>
         </NavbarBrand>
+      </NavbarContent>
+
+      <NavbarContent className="basis-full" justify="start">
         <NavbarItem className="hidden md:flex">
           <Button
             as={Link}
@@ -57,6 +62,26 @@ export const Navbar = () => {
             variant={pathname === "/cashroom" ? "solid" : "light"}
           >
             Cash Room
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden md:flex">
+          <Button
+            as={Link}
+            color={pathname === "/openlid" ? "primary" : "default"}
+            href={"/openlid"}
+            variant={pathname === "/openlid" ? "solid" : "light"}
+          >
+            Open Lid
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden md:flex">
+          <Button
+            as={Link}
+            color={pathname === "/onduty" ? "primary" : "default"}
+            href={"/onduty"}
+            variant={pathname === "/onduty" ? "solid" : "light"}
+          >
+            On Duty
           </Button>
         </NavbarItem>
       </NavbarContent>
@@ -93,6 +118,18 @@ export const Navbar = () => {
             <BsCashCoin />
             <Link color="foreground" href="/cashroom" size="lg">
               Cash Room
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem className="flex items-center gap-2">
+            <BiDoorOpen />
+            <Link color="foreground" href="/openlid" size="lg">
+              Open Lid
+            </Link>
+          </NavbarMenuItem>
+          <NavbarMenuItem className="flex items-center gap-2">
+            <GoPeople />
+            <Link color="foreground" href="/onduty" size="lg">
+              On Duty
             </Link>
           </NavbarMenuItem>
         </div>

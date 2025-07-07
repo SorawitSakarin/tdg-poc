@@ -5,6 +5,8 @@ import { TbDeviceComputerCamera } from "react-icons/tb";
 import { TbMeat } from "react-icons/tb";
 import { BsCashCoin } from "react-icons/bs";
 import { RiAlertLine } from "react-icons/ri";
+import { GoPeople } from "react-icons/go";
+import { BiDoorOpen } from "react-icons/bi";
 
 import ImageHandler from "@/components/detail/ImageHandler";
 import NoFile from "@/components/detail/NoFile";
@@ -37,6 +39,11 @@ export default function CardDetail({
             <RiAlertLine />
           ) : type === "insufficientFreshFood" ? (
             <TbMeat />
+          ) : type === "openLid" ? (
+            <BiDoorOpen />
+          ) : type === "staffNotWeighingArea" ||
+            type === "staffNotCashierArea" ? (
+            <GoPeople />
           ) : (
             <BsCashCoin />
           )}
