@@ -16,14 +16,21 @@ import { BsCashCoin } from "react-icons/bs";
 import { RiAlertLine } from "react-icons/ri";
 import { BiDoorOpen } from "react-icons/bi";
 import { GoPeople } from "react-icons/go";
+import { useState } from "react";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar
+      isMenuOpen={isMenuOpen}
+      maxWidth="xl"
+      position="sticky"
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="basis-full md:basis-1/5" justify="center">
         <NavbarBrand as="li" className="gap-3">
           <NextLink className="flex justify-start items-center gap-1" href="/">
@@ -97,40 +104,62 @@ export const Navbar = () => {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
-        <NavbarMenuToggle />
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        />
       </NavbarContent>
 
       <NavbarMenu>
         <div className="mx-4 mt-2 flex flex-col gap-2">
-          <NavbarMenuItem className="flex items-center gap-2">
+          <NavbarMenuItem
+            className="flex items-center gap-2"
+            isActive={pathname === "/shoplifter"}
+            onClick={() => setIsMenuOpen(false)}
+          >
             <RiAlertLine />
-            <Link color="foreground" href="/shoplifter" size="lg">
+            <NextLink color="foreground" href="/shoplifter">
               Shoplifter
-            </Link>
+            </NextLink>
           </NavbarMenuItem>
-          <NavbarMenuItem className="flex items-center gap-2">
+          <NavbarMenuItem
+            className="flex items-center gap-2"
+            isActive={pathname === "/freshfood"}
+            onClick={() => setIsMenuOpen(false)}
+          >
             <TbMeat />
-            <Link color="foreground" href="/freshfood" size="lg">
+            <NextLink color="foreground" href="/freshfood">
               Fresh Food
-            </Link>
+            </NextLink>
           </NavbarMenuItem>
-          <NavbarMenuItem className="flex items-center gap-2">
+          <NavbarMenuItem
+            className="flex items-center gap-2"
+            isActive={pathname === "/cashroom"}
+            onClick={() => setIsMenuOpen(false)}
+          >
             <BsCashCoin />
-            <Link color="foreground" href="/cashroom" size="lg">
+            <NextLink color="foreground" href="/cashroom">
               Cash Room
-            </Link>
+            </NextLink>
           </NavbarMenuItem>
-          <NavbarMenuItem className="flex items-center gap-2">
+          <NavbarMenuItem
+            className="flex items-center gap-2"
+            isActive={pathname === "/openlid"}
+            onClick={() => setIsMenuOpen(false)}
+          >
             <BiDoorOpen />
-            <Link color="foreground" href="/openlid" size="lg">
+            <NextLink color="foreground" href="/openlid">
               Open Lid
-            </Link>
+            </NextLink>
           </NavbarMenuItem>
-          <NavbarMenuItem className="flex items-center gap-2">
+          <NavbarMenuItem
+            className="flex items-center gap-2"
+            isActive={pathname === "/onduty"}
+            onClick={() => setIsMenuOpen(false)}
+          >
             <GoPeople />
-            <Link color="foreground" href="/onduty" size="lg">
+            <NextLink color="foreground" href="/onduty">
               On Duty
-            </Link>
+            </NextLink>
           </NavbarMenuItem>
         </div>
       </NavbarMenu>

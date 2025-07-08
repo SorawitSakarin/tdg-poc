@@ -7,8 +7,6 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
-  Chip,
   Tooltip,
   Link,
 } from "@heroui/react";
@@ -50,13 +48,6 @@ export const EyeIcon = (props: any) => {
     </svg>
   );
 };
-
-const statusColorMap: any = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
-};
-
 interface DataTableProps {
   data: any[];
 }
@@ -66,36 +57,6 @@ export default function DataTable({ data }: DataTableProps) {
     const cellValue = user[columnKey];
 
     switch (columnKey) {
-      case "name":
-        return (
-          <User
-            avatarProps={{ radius: "lg", src: user.avatar }}
-            description={user.email}
-            name={cellValue}
-          >
-            {user.email}
-          </User>
-        );
-      case "role":
-        return (
-          <div className="flex flex-col">
-            <p className="text-bold text-sm capitalize">{cellValue}</p>
-            <p className="text-bold text-sm capitalize text-default-400">
-              {user.team}
-            </p>
-          </div>
-        );
-      case "status":
-        return (
-          <Chip
-            className="capitalize"
-            color={statusColorMap[user.status]}
-            size="sm"
-            variant="flat"
-          >
-            {cellValue}
-          </Chip>
-        );
       case "actions":
         return (
           <div className="relative flex items-center justify-center gap-2">
@@ -109,13 +70,13 @@ export default function DataTable({ data }: DataTableProps) {
           </div>
         );
       default:
-        return cellValue;
+        return <p className="whitespace-nowrap">{cellValue}</p>;
     }
   }, []);
 
   return (
     <>
-      <Table aria-label="Example table with custom cells">
+      <Table aria-label="Data table">
         <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
