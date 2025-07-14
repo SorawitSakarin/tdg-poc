@@ -1,7 +1,7 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { MdOutlineArrowBack } from "react-icons/md";
+import { MdOutlineArrowBack, MdOutlineArrowForward } from "react-icons/md";
 import { Link, Button } from "@heroui/react";
 
 import { title } from "@/components/primitives";
@@ -13,6 +13,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const [isFirstLoading, setIsFirstLoading] = useState(false);
   const [data, setData] = useState<any>({});
+  const [prevData, setPrevData] = useState<any>();
+  const [nextData, setNextData] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +37,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }
       const data: any = await response.json();
 
-      setData(data);
+      setData(data?.data || data);
+      setPrevData(data?.prevData);
+      setNextData(data?.nextData);
       setIsFirstLoading(false);
     };
 
@@ -62,6 +66,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <span className={title()}>Notification&nbsp;</span>
         <span className={title({ color: "blue" })}>Detail</span>
       </div>
+
+      <Button
+        as={Link}
+        href={`/${channel}?branchId=${data.branch}`}
+        startContent={<MdOutlineArrowBack />}
+        variant="bordered"
+      >
+        Back to Home
+      </Button>
+
       {isFirstLoading ? (
         <FirstLoadSekeleton />
       ) : (
@@ -76,14 +90,30 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           type={data.type}
         />
       )}
-      <Button
-        as={Link}
-        href={`/${channel}?branchId=${data.branch}`}
-        startContent={<MdOutlineArrowBack />}
-        variant="bordered"
-      >
-        Back to Home
-      </Button>
+      <div className="flex gap-2 w-full justify-between">
+        {prevData && (
+          <Button
+            as={Link}
+            color="primary"
+            href={`/detail/${prevData}`}
+            startContent={<MdOutlineArrowBack />}
+            variant="solid"
+          >
+            Previous
+          </Button>
+        )}
+        {nextData && (
+          <Button
+            as={Link}
+            color="primary"
+            endContent={<MdOutlineArrowForward />}
+            href={`/detail/${nextData}`}
+            variant="solid"
+          >
+            Next
+          </Button>
+        )}
+      </div>
     </section>
   );
 }
