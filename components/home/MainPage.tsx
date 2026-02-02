@@ -53,6 +53,7 @@ export default function MainPage({
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "Organization-Id": "1",
           },
           cache: "no-cache",
         },
