@@ -26,6 +26,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "Organization-Id": "1",
           },
           cache: "no-cache",
         }
@@ -56,7 +57,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           : data.type === "unusualSafeOpening"
             ? "cashroom"
             : data.type === "staffNotWeighingArea" ||
-                data.type === "staffNotCashierArea"
+              data.type === "staffNotCashierArea"
               ? "onduty"
               : "shoplifter";
 

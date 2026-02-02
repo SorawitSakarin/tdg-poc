@@ -43,6 +43,7 @@ export default function Home() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            "Organization-Id": "1",
           },
           cache: "no-cache",
         }
